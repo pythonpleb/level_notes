@@ -1,10 +1,13 @@
 from tkinter import *
+from Row import Row
 
 root = Tk()
 root.title("Level Notes")
 
 default_rows_num = 10
 count = default_rows_num + 1
+
+rows = []
 
 
 def table(num):
@@ -16,6 +19,9 @@ def table(num):
     elev = Entry(root, borderwidth=3)
     desc = Entry(root, borderwidth=3)
 
+    line = Row([point, bs, hi, ifs, fs, elev, desc])
+    rows.append(line)
+
     point.grid(row=num, column=1)
     bs.grid(row=num, column=2)
     hi.grid(row=num, column=3)
@@ -23,6 +29,9 @@ def table(num):
     fs.grid(row=num, column=5)
     elev.grid(row=num, column=6)
     desc.grid(row=num, column=7, padx=5)
+
+    height_instrument = elev.get()
+    hi.insert(0, height_instrument)
 
 
 def top_descriptions():
@@ -44,22 +53,28 @@ def top_descriptions():
 
 
 def buttons():
-    new_line = Button(root, text="+", padx=1, pady=1, command=lambda: add_row(count))
+    # TODO: fix button sizes
+    new_line = Button(root, text="+", padx=2, pady=1, command=add_row)
     new_line.grid(row=1, column=0)
 
-    new_line = Button(root, text="-", padx=2, pady=1, command=lambda: remove_row())
+    new_line = Button(root, text="-", padx=3, pady=1, command=remove_row)
     new_line.grid(row=2, column=0)
 
 
-def add_row(amt):
+def add_row():
     global count
-    for i in range(amt):
-        table(count)
     count += 1
+    table(count)
 
 
 def remove_row():
-    return
+    global count
+    if len(rows) < 3:  # make it so they don't have any less than 2 rows
+        return
+    else:
+        rows[len(rows) - 1].delete()
+        rows.pop()
+        count -= 1
 
 
 def default_grid_size():
@@ -67,8 +82,16 @@ def default_grid_size():
         table(i + 1)
 
 
+def calculate():
+    # elev - bs = hi
+    # hi + fs = elev
+    # hi + ifs = elev
+    return
+
+
 top_descriptions()
 buttons()
+calculate()
 default_grid_size()
 
 root.mainloop()
