@@ -1,13 +1,15 @@
 from tkinter import *
 from Row import Row
+from Col import Col
 
 root = Tk()
 root.title("Level Notes")
 
-default_rows_num = 10
+default_rows_num = 5
 count = default_rows_num + 1
 
 rows = []
+cols = []
 
 
 def table(num):
@@ -22,6 +24,9 @@ def table(num):
     line = Row([point, bs, hi, ifs, fs, elev, desc])
     rows.append(line)
 
+    column = Col(point, bs, hi, ifs, fs, elev, desc)
+    cols.append(column)
+
     point.grid(row=num, column=1)
     bs.grid(row=num, column=2)
     hi.grid(row=num, column=3)
@@ -30,8 +35,9 @@ def table(num):
     elev.grid(row=num, column=6)
     desc.grid(row=num, column=7, padx=5)
 
-    height_instrument = elev.get()
-    hi.insert(0, height_instrument)
+    # testing hi
+    # elev.insert(0, 200)
+    # bs.insert(0, 10)
 
 
 def top_descriptions():
@@ -69,7 +75,7 @@ def add_row():
 
 def remove_row():
     global count
-    if len(rows) < 3:  # make it so they don't have any less than 2 rows
+    if len(rows) < 3:  # make it a minimum of 2 rows
         return
     else:
         rows[len(rows) - 1].delete()
@@ -86,6 +92,7 @@ def calculate():
     # elev - bs = hi
     # hi + fs = elev
     # hi + ifs = elev
+    print(cols)
     return
 
 
